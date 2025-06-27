@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1.5cm, top=2cm, bottom=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{setspace}
+\setstretch{0.9}
+
+\title{CS161 Notes - Merge Sort}
+\author{Yuren Hao}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Merge Sort}
+
+Divide-and-conquer sorting algorithm: recursively divide array into halves, sort each half, then merge.
+
+\textbf{Algorithm:}
+\begin{enumerate}
+    \item \textbf{Divide:} Split $A[1..n]$ at midpoint $\lfloor n/2 \rfloor$
+    \item \textbf{Conquer:} Recursively sort both halves
+    \item \textbf{Combine:} Merge sorted halves
+\end{enumerate}
+
+\section{Pseudocode}
+
+\textbf{MERGE-SORT}$(A, p, r)$:
+\begin{enumerate}
+    \item \textbf{if} $p < r$:
+    \begin{itemize}
+        \item $q = \lfloor (p + r) / 2 \rfloor$
+        \item \textbf{MERGE-SORT}$(A, p, q)$
+        \item \textbf{MERGE-SORT}$(A, q + 1, r)$
+        \item \textbf{MERGE}$(A, p, q, r)$
+    \end{itemize}
+\end{enumerate}
+
+\textbf{MERGE}$(A, p, q, r)$:
+\begin{enumerate}
+    \item $n_1 = q - p + 1$, $n_2 = r - q$
+    \item Create arrays $L[1..n_1 + 1]$, $R[1..n_2 + 1]$
+    \item Copy $A[p..q] \to L[1..n_1]$, $A[q+1..r] \to R[1..n_2]$
+    \item $L[n_1 + 1] = R[n_2 + 1] = \infty$
+    \item $i = j = 1$
+    \item \textbf{for} $k = p$ \textbf{to} $r$:
+    \begin{itemize}
+        \item \textbf{if} $L[i] \leq R[j]$: $A[k] = L[i++]$
+        \item \textbf{else}: $A[k] = R[j++]$
+    \end{itemize}
+\end{enumerate}
+
+\section{Complexity Analysis}
+
+\textbf{Time:} $T(n) = 2T(n/2) + \Theta(n) = \Theta(n \log n)$ (Master Theorem)
+
+\textbf{Space:} $\Theta(n)$ auxiliary arrays + $\Theta(\log n)$ recursion stack = $\Theta(n)$
+
+\section{Properties}
+
+\textbf{Advantages:} Stable, predictable $O(n \log n)$, parallelizable
+
+\textbf{Disadvantages:} $O(n)$ extra space, not in-place
+
+\end{document} 
